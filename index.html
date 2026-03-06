@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тестовое задание — Бюро КАЧ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-light: #FAFAF5;
+      --bg-dark: #0F1A12;
+      --bg-dark-alt: #131A14;
+      --bg-subtle: #F4F3EE;
+      --text-primary: #1A1A18;
+      --text-secondary: #6B6B65;
+      --text-muted: #999994;
+      --text-light: #F2F1EC;
+      --text-light-muted: #777772;
+      --accent-yellow: #E8DC44;
+      --accent-green: #228B3B;
+      --border-light: #E0E0DC;
+      --border-dark: #2A2A26;
+      --divider: #E8E8E4;
+    }
+
+    body {
+      font-family: 'Golos Text', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ── Toggle ── */
+    .toggle-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-dark);
+      border-bottom: 1px solid var(--border-dark);
+      display: flex;
+      justify-content: center;
+      padding: 16px 24px;
+    }
+    .toggle-container {
+      display: flex;
+      background: rgba(255,255,255,0.06);
+      border-radius: 0;
+      overflow: hidden;
+    }
+    .toggle-btn {
+      font-family: 'Golos Text', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      padding: 10px 28px;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+    .toggle-btn.active {
+      background: var(--accent-yellow);
+      color: var(--text-primary);
+    }
+
+    /* ── Pages ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── Shared ── */
+    .section { padding: 56px 64px; }
+    .section--dark { background: var(--bg-dark); }
+    .section--dark-alt { background: var(--bg-dark-alt); }
+    .section--subtle { background: var(--bg-subtle); padding: 48px 64px; }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      padding: 6px 16px;
+      border: 1px solid var(--border-light);
+      color: var(--accent-green);
+    }
+    .badge--filled {
+      background: var(--accent-yellow);
+      color: var(--text-primary);
+      border: none;
+      padding: 8px 20px;
+    }
+
+    .text-body {
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 520px;
+    }
+    .text-body--secondary { color: var(--text-secondary); }
+    .text-body--muted { color: var(--text-muted); }
+    .text-body--light { color: var(--text-light); }
+    .text-body--light-muted { color: var(--text-light-muted); }
+
+    .text-small {
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 520px;
+    }
+
+    .text-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+    }
+
+    h1 {
+      font-size: 64px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.05;
+    }
+    h2 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+    h3 {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .divider-line {
+      width: 80px;
+      height: 3px;
+      background: var(--accent-yellow);
+    }
+    .divider-full {
+      height: 1px;
+      background: var(--divider);
+    }
+
+    .gap-24 { display: flex; flex-direction: column; gap: 24px; }
+    .gap-32 { display: flex; flex-direction: column; gap: 32px; }
+
+    /* ── PAGE 1: Задание ── */
+
+    /* Header */
+    .header {
+      background: var(--bg-dark);
+      padding: 80px 64px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .header h1 { color: var(--text-light); }
+    .header .subtitle {
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+    .logo-svg { fill: var(--text-light); width: 38px; height: 35px; }
+
+    /* Eval grid */
+    .eval-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .eval-item { display: flex; flex-direction: column; gap: 8px; }
+    .eval-num {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent-green);
+    }
+    .eval-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Project details */
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .detail-item { display: flex; flex-direction: column; gap: 6px; }
+    .detail-value {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.5;
+      max-width: 340px;
+    }
+
+    /* Important note */
+    .important-note {
+      background: var(--bg-subtle);
+      padding: 24px 64px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .important-note svg { flex-shrink: 0; }
+
+    /* Role list */
+    .role-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .role-num {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--accent-green);
+    }
+    .role-text { font-size: 14px; color: var(--text-primary); }
+
+    /* Req cards */
+    .req-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .req-card {
+      background: var(--bg-subtle);
+      padding: 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--bg-dark);
+      padding: 56px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .footer h2 { color: var(--text-light); }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .footer-big {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--accent-yellow);
+    }
+    .footer-sub { font-size: 14px; color: var(--text-muted); }
+    .step-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .step-num {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--accent-yellow);
+    }
+    .step-text { font-size: 14px; color: var(--text-light); }
+    .disclaimer {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      max-width: 520px;
+    }
+
+    /* ── PAGE 2: Tone of Voice ── */
+    .tov-header {
+      background: var(--bg-dark);
+      padding: 80px 64px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .tov-header h1 { color: var(--text-light); }
+
+    .tov-intro {
+      background: var(--bg-dark);
+      padding: 0 64px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Style grid */
+    .style-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .style-item { display: flex; flex-direction: column; gap: 8px; }
+    .style-num {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent-yellow);
+    }
+    .style-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+    .style-desc {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    /* Anti cards */
+    .anti-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .anti-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border: 1px solid var(--border-dark);
+    }
+    .anti-card svg { flex-shrink: 0; }
+    .anti-text { font-size: 13px; color: var(--text-muted); }
+
+    /* Quote */
+    .quote-section {
+      background: var(--bg-light);
+      padding: 56px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .quote-text {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.5;
+      max-width: 520px;
+    }
+
+    /* Checklist */
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .check-row svg { flex-shrink: 0; margin-top: 2px; }
+    .check-text {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-light);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .section, .header, .footer, .tov-header, .tov-intro, .quote-section, .important-note { padding-left: 24px; padding-right: 24px; }
+      .section--subtle { padding-left: 24px; padding-right: 24px; }
+      h1 { font-size: 36px; letter-spacing: -1px; }
+      h2 { font-size: 24px; }
+      .header .subtitle { font-size: 20px; }
+      .eval-grid { grid-template-columns: 1fr 1fr; }
+      .details-grid { grid-template-columns: 1fr; }
+      .req-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .style-grid { grid-template-columns: 1fr; }
+      .anti-grid { grid-template-columns: 1fr; }
+      .footer-big { font-size: 36px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Toggle -->
+<div class="toggle-bar">
+  <div class="toggle-container">
+    <button class="toggle-btn active" data-page="task">ЗАДАНИЕ</button>
+    <button class="toggle-btn" data-page="tov">TONE OF VOICE</button>
+  </div>
+</div>
+
+<!-- PAGE 1: Задание -->
+<div class="page active" id="page-task">
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <svg class="logo-svg" viewBox="0 0 38 35" xmlns="http://www.w3.org/2000/svg">
+      <path d="M36.3556 25.5204V21.4337H35.3016V18.293H34.2475V15.1716H33.2724V11.8208H32.2184V7.71012H31.2625V4.44725H30.2438V1.05226H28.9549V0L7.26665 6.59649V7.6966H6.02455V10.9569H5.12635V14.1532H4.05619V17.2324H2.98604V20.319H1.9642V23.3447H0.91015V26.568H0V29.7914H2.1081V26.568H3.01825V23.5423H4.0723V20.4558H5.12635V17.3765H6.1965V14.1802H7.26665V12.0362H8.16485V15.1066H9.2189V18.3403H10.2168V21.4841H11.2709V24.6575H12.3249V28.6267H13.379V31.782H14.3499V34.8898H16.458V31.6665H15.4871V27.6629H14.433V25.973L15.3162 26.1914L27.1861 22.371V20.1453H25.0676V18.8433H23.8956V16.5963H25.0676V14.1433H26.1762V10.9428H27.1861V7.98892H28.2562V5.94007H29.1544V8.74521H30.1103V12.0081H31.1643V15.2585H32.1394V18.4693H33.1935V21.5907H34.2475V24.7314H35.3016V27.5844H37.4096V25.5199H36.3556V25.5204ZM11.327 18.227V14.1532H10.273V10.9194H9.13423V8.49034L12.6351 7.49374L12.6486 7.98944V21.4841H12.3249V18.227H11.327ZM22.2659 4.51123V18.8444L14.4273 21.222V6.93927L27.1346 3.00332V5.70652H26.1159V7.98996H25.0047V12.0091H23.8961V4.00616L22.2665 4.51123H22.2659Z"/>
+    </svg>
+    <span class="badge--filled">БЮРО КАЧ</span>
+    <h1>Тестовое задание</h1>
+    <div class="subtitle">для SMM-специалиста</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Intro -->
+  <div class="section gap-32">
+    <h2>Привет!</h2>
+    <p class="text-body">Мы предлагаем тебе выполнить тестовое задание, максимально приближённое к&nbsp;реальной работе в&nbsp;нашем бюро. В&nbsp;рамках задания мы предлагаем посмотреть один из&nbsp;реализованных проектов и&nbsp;на&nbsp;основе материалов подготовить контент для нашего Telegram-канала.</p>
+    <p class="text-body text-body--secondary">Задача — не&nbsp;просто описать проект, а&nbsp;попробовать превратить его в&nbsp;понятную и&nbsp;интересную историю: показать идею, процесс создания и&nbsp;результат.</p>
+    <p class="text-small" style="font-weight:500;">Ты можешь задать команде до&nbsp;трёх уточняющих вопросов по&nbsp;проекту.</p>
+  </div>
+
+  <!-- Evaluation -->
+  <div class="section--subtle gap-24">
+    <h3>Что мы оцениваем</h3>
+    <div class="eval-grid">
+      <div class="eval-item"><div class="eval-num">01</div><div class="eval-label">Работа с&nbsp;информацией</div></div>
+      <div class="eval-item"><div class="eval-num">02</div><div class="eval-label">Структура кейса</div></div>
+      <div class="eval-item"><div class="eval-num">03</div><div class="eval-label">Чувство tone of&nbsp;voice</div></div>
+      <div class="eval-item"><div class="eval-num">04</div><div class="eval-label">Совпадение стиля с&nbsp;нашим подходом</div></div>
+    </div>
+  </div>
+
+  <!-- Project Context -->
+  <div class="section gap-32">
+    <span class="badge">КОНТЕКСТ ПРОЕКТА</span>
+    <h2>Вводные для выполнения задания</h2>
+    <div class="details-grid">
+      <div class="gap-24">
+        <div class="detail-item"><div class="text-label">ПРОЕКТ</div><div class="detail-value">Ролик для портфолио команды, полностью сгенерированный с&nbsp;помощью нейросетей</div></div>
+        <div class="detail-item"><div class="text-label">ФОРМАТ</div><div class="detail-value">Видеоролик, 25 секунд</div></div>
+      </div>
+      <div class="gap-24">
+        <div class="detail-item"><div class="text-label">ЦЕЛЬ</div><div class="detail-value">Создать сильный AI-кейс для портфолио бюро</div></div>
+        <div class="detail-item"><div class="text-label">СРОКИ</div><div class="detail-value">1 неделя</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Important Note -->
+  <div class="important-note">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8DC44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+    <p class="text-small text-body--secondary" style="max-width:520px;">Проект не&nbsp;создавался для клиента. Несмотря на&nbsp;использование бренда Яндекса, ролик был сделан исключительно как внутренний кейс.</p>
+  </div>
+
+  <!-- Our Role -->
+  <div class="section gap-32">
+    <span class="badge">НАША РОЛЬ</span>
+    <h2>Полный нейропродакшн-пайплайн</h2>
+    <p class="text-body text-body--secondary">Проект был полностью реализован командой с&nbsp;нуля. Весь производственный цикл — от&nbsp;генерации до&nbsp;финального видео — был реализован внутри команды с&nbsp;использованием нейросетей.</p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="role-row"><span class="role-num">01</span><span class="role-text">Генерация визуальных кадров на&nbsp;основе раскадровки</span></div>
+      <div class="role-row"><span class="role-num">02</span><span class="role-text">Создание статичных изображений и&nbsp;анимация в&nbsp;видеоряд</span></div>
+      <div class="role-row"><span class="role-num">03</span><span class="role-text">Ретушь и&nbsp;цветокоррекция</span></div>
+      <div class="role-row"><span class="role-num">04</span><span class="role-text">Генерация музыки и&nbsp;голоса за&nbsp;кадром с&nbsp;помощью AI</span></div>
+      <div class="role-row"><span class="role-num">05</span><span class="role-text">Финальный монтаж и&nbsp;постпродакшн</span></div>
+    </div>
+  </div>
+
+  <div class="divider-full"></div>
+
+  <!-- Task Format -->
+  <div class="section gap-32">
+    <span class="badge">ФОРМАТ ЗАДАНИЯ</span>
+    <p class="text-body">Посмотри финальный ролик и&nbsp;изучи вводные материалы. После этого подготовь 3–5&nbsp;карточек для Telegram-поста, рассказывающих о&nbsp;проекте.</p>
+    <div class="gap-24" style="gap:16px;">
+      <div style="font-size:16px;font-weight:600;">Карточки должны последовательно раскрывать:</div>
+      <div class="req-grid">
+        <div class="req-card">Идея проекта</div>
+        <div class="req-card">Процесс создания</div>
+        <div class="req-card">Особенности AI</div>
+        <div class="req-card">Результат</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Format -->
+  <div class="section--subtle gap-24">
+    <span class="badge">ФОРМАТ РЕЗУЛЬТАТА</span>
+    <p class="text-body">Карточки необходимо оформить с&nbsp;базовым визуальным дизайном — так, как они могли&nbsp;бы выглядеть в&nbsp;Telegram-посте. Формат оформления кандидат выбирает самостоятельно (Figma, Canva, Google Slides, PDF и&nbsp;т.д.).</p>
+    <p class="text-small text-body--secondary" style="max-width:520px;">Нам важно увидеть общую визуальную структуру карточек, логику подачи информации и&nbsp;то, как текст может быть упакован для читателя.</p>
+  </div>
+
+  <!-- Additional -->
+  <div class="section gap-24">
+    <span class="badge">ДОПОЛНИТЕЛЬНО</span>
+    <p class="text-body">В&nbsp;начале задания коротко сформулируй: какая, на&nbsp;твой взгляд, главная идея этого кейса (1–2&nbsp;предложения).</p>
+    <p class="text-body text-body--secondary">Также можно предложить короткий заголовок поста, который мог&nbsp;бы привлечь внимание к&nbsp;этому кейсу.</p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <h2 style="color:var(--text-light)">Сроки и&nbsp;этапы</h2>
+    <div class="footer-grid">
+      <div class="gap-24" style="gap:12px;">
+        <div class="text-label" style="color:var(--text-secondary)">СРОК ВЫПОЛНЕНИЯ</div>
+        <div class="footer-big">3 дня</div>
+        <div class="footer-sub">с&nbsp;момента получения задания</div>
+      </div>
+      <div class="gap-24" style="gap:20px;">
+        <div class="text-label" style="color:var(--text-secondary)">ЭТАПЫ ОТБОРА</div>
+        <div class="step-row"><span class="step-num">01</span><span class="step-text">Выполнение тестового задания</span></div>
+        <div class="step-row"><span class="step-num">02</span><span class="step-text">Собеседование с&nbsp;креативным директором</span></div>
+        <div class="step-row"><span class="step-num">03</span><span class="step-text">Финальное собеседование с&nbsp;командой</span></div>
+      </div>
+    </div>
+    <p class="disclaimer">* Текст, подготовленный в&nbsp;рамках тестового задания, используется только для оценки кандидатов и&nbsp;не&nbsp;будет публиковаться.</p>
+  </div>
+
+</div>
+</div>
+
+<!-- PAGE 2: Tone of Voice -->
+<div class="page" id="page-tov">
+<div class="wrapper">
+
+  <!-- ToV Header -->
+  <div class="tov-header">
+    <span class="badge--filled">TONE OF VOICE</span>
+    <h1>Тон оф войс КАЧ</h1>
+    <p class="text-body text-body--light-muted" style="font-size:20px;">Если коротко — мы пишем так, как разговариваем.</p>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- ToV Intro -->
+  <div class="tov-intro">
+    <p class="text-body text-body--light-muted">Никаких «друзья», «мы команда специалистов», «платформа по&nbsp;созданию» и&nbsp;прочего официоза. Мы как будто&nbsp;бы случайно запостили в&nbsp;паблик свой рабочий чатик. Не&nbsp;трехстопными ямбами, конечно, разговариваем, но&nbsp;со&nbsp;своим небрежным шармом.</p>
+    <p class="text-body text-body--light">Всё, что мы пишем — от&nbsp;первого лица. Не&nbsp;«студия КАЧ делает», а&nbsp;«мы сделали», «у&nbsp;нас случилось», «Лейла заметила». Это всегда ощущается как личное сообщение. Без пафоса. Ближе к&nbsp;телу.</p>
+  </div>
+
+  <!-- Style Section -->
+  <div class="section section--dark-alt gap-32">
+    <h2 style="color:var(--text-light)">Наш стиль</h2>
+    <div class="style-grid">
+      <div class="style-item"><div class="style-num">01</div><div class="style-title">Живой и&nbsp;устный</div><div class="style-desc">Пишу так, как&nbsp;бы рассказала голосом на&nbsp;созвоне. Без занудства и&nbsp;дикторских конструкций. Разговорные интонации, мемы и&nbsp;референсы.</div></div>
+      <div class="style-item"><div class="style-num">04</div><div class="style-title">Мягко, но&nbsp;умно</div><div class="style-desc">Не&nbsp;«учим чему-то», а&nbsp;«делимся». Не&nbsp;«экспертность», а&nbsp;«опыт».</div></div>
+      <div class="style-item"><div class="style-num">02</div><div class="style-title">С&nbsp;иронией, но&nbsp;по&nbsp;делу</div><div class="style-desc">Умею подколоть себя или показать слабое место — но&nbsp;так, чтобы за&nbsp;этим стоял смысл, наблюдение или инсайт.</div></div>
+      <div class="style-item"><div class="style-num">05</div><div class="style-title">Визуальный флер</div><div class="style-desc">Даже если пост про внутренние процессы — мы визуальщики, у&nbsp;нас всё крутится вокруг этого.</div></div>
+      <div class="style-item"><div class="style-num">03</div><div class="style-title">С&nbsp;конкретикой</div><div class="style-desc">Без размытых краев. Надо писать четко! Во&nbsp;всех смыслах.</div></div>
+      <div class="style-item"><div class="style-num">06</div><div class="style-title">Визуал = текст</div><div class="style-desc">Визуальное сопровождение поста всегда мэтчится с&nbsp;текстом и&nbsp;общим стилем. Мемы и&nbsp;приколы приветствуются.</div></div>
+    </div>
+  </div>
+
+  <!-- Anti Section -->
+  <div class="section section--dark gap-24">
+    <h3 style="color:var(--accent-yellow)">Как мы точно не&nbsp;пишем</h3>
+    <div class="anti-grid">
+      <div class="anti-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999994" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg><span class="anti-text">Сухие пресс-релизы</span></div>
+      <div class="anti-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999994" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg><span class="anti-text">Громкие «мы лучшие»</span></div>
+      <div class="anti-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999994" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg><span class="anti-text">Язык инфобизнеса</span></div>
+      <div class="anti-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999994" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg><span class="anti-text">Корпоративный стиль</span></div>
+    </div>
+  </div>
+
+  <!-- Quote -->
+  <div class="quote-section">
+    <div class="text-label">ОБЪЯСНИ СВОЙ ТОН</div>
+    <p class="quote-text">«Представь, что ты в&nbsp;созвоне с&nbsp;нами, и&nbsp;рассказываешь, что только что сделал за&nbsp;неделю. Не&nbsp;строго, как в&nbsp;кейсе из&nbsp;портфолио, а&nbsp;словно пишешь в&nbsp;чатике в&nbsp;телеге — чтобы всем было понятно, немного смешно и&nbsp;по&nbsp;делу. Вот такой стилек.»</p>
+  </div>
+
+  <!-- Checklist -->
+  <div class="section section--dark gap-24">
+    <h3 style="color:var(--accent-yellow)">Чек-лист перед публикацией</h3>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="check-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8DC44" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="check-text">Пост написан от&nbsp;первого лица. Не&nbsp;«студия сделала», а&nbsp;«мы сделали».</span></div>
+      <div class="check-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8DC44" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="check-text">Язык живой, разговорный. Можно представить, как озвучиваешь это в&nbsp;реальном разговоре.</span></div>
+      <div class="check-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8DC44" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="check-text">Нет пафоса. В&nbsp;тексте есть мысль, инсайт или наблюдение.</span></div>
+      <div class="check-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8DC44" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="check-text">Ирония не&nbsp;отвлекает от&nbsp;сути, а&nbsp;помогает её передать.</span></div>
+      <div class="check-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8DC44" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="check-text">Всё конкретно. Без воды и&nbsp;абстрактных корпоратских фраз.</span></div>
+      <div class="check-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8DC44" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="check-text">Кейс описан детально, с&nbsp;фокусом и&nbsp;наглядным визуалом.</span></div>
+      <div class="check-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8DC44" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="check-text">Рекрутинг звучит по-человечески, как личное приглашение.</span></div>
+      <div class="check-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8DC44" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="check-text">Финал поста не&nbsp;роняет вайб. Или смешной, или мягкий, или точно по&nbsp;делу.</span></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.toggle-btn');
+  const pages = document.querySelectorAll('.page');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + btn.dataset.page).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
